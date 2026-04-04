@@ -13,14 +13,14 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.next();
   }
 
-  // Allow org selection page
-  if (isOrgSelectionRoute(req)) {
-    return NextResponse.next();
-  }
-
   // Protect non-public routes
   if (!userId) {
     await auth.protect();
+  }
+
+  // Allow org selection page
+  if (isOrgSelectionRoute(req)) {
+    return NextResponse.next();
   }
 
   // For all protected routes, ensure org is selected
