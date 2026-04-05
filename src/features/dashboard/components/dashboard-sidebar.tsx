@@ -132,7 +132,7 @@ export function DashboardSidebar() {
         <div className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:pl-0">
           <Image src="/logo.png" alt="Voice Mime" width={24} height={24} />
           <span className="text-foreground text-lg font-semibold tracking-tighter group-data-[collapsible=icon]:hidden">
-            Voice Memo
+            Voice Mime
           </span>
           <SidebarTrigger className="ml-auto lg:hidden" />
         </div>
@@ -141,7 +141,7 @@ export function DashboardSidebar() {
             <OrganizationSwitcher
               hidePersonal
               fallback={
-                <Skeleton className="h-8.5 w-full rounded-md border bg-white group-data-[collapsible=icon]:size-8" />
+                <Skeleton className="border-border h-8.5 w-full rounded-md border bg-white group-data-[collapsible=icon]:size-8" />
               }
               appearance={{
                 elements: {
