@@ -1,0 +1,75 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { Textarea } from "@/components/ui/textarea";
+import { TEXT_MAX_LENGTH } from "@/features/text-to-speech/data/constants";
+import { Badge } from "@/components/ui/badge";
+import { Coins } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export function TextInputPanel() {
+  const [text, setText] = useState("");
+  const router = useRouter();
+
+  const handleGenerate = () => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    router.push(`/text-to-speech?text=${encodeURIComponent(trimmed)}`);
+  };
+
+  return (
+    <div className="rounded-[22px] bg-linear-185 from-[#f6aa1c] from-15% via-[#941b0c] via-39% to-[#dc2f02] to-85% p-0.5 shadow-[0_0_0_4px_white]">
+      <div className="rounded-[20px] bg-[#f9f9f9] p-1">
+        <div className="space-y-4 rounded-xl bg-white p-4 drop-shadow-xs">
+          <Textarea
+            placeholder="Start typing or paste your text here..."
+            className="min-h-35 resize-none rounded-sm border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            maxLength={TEXT_MAX_LENGTH}
+          />
+
+          {/* Bottom info */}
+
+          <div className="flex items-center justify-between">
+            <Badge variant="outline" className="gap-1.5 border-dashed">
+              <Coins className="text-chart-5 size-3" />
+              <span className="text-xs">
+                {text.length === 0 ? (
+                  "Start typing to estimate"
+                ) : (
+                  <>
+                    <span className="tabular-nums">
+                      ${(text.length * 0.0003).toFixed(4)}
+                    </span>{" "}
+                    estimated
+                  </>
+                )}
+              </span>
+            </Badge>
+            <span className="text-muted-foreground text-xs">
+              {text.length.toLocaleString()} /{" "}
+              {TEXT_MAX_LENGTH.toLocaleString()} characters
+            </span>
+          </div>
+        </div>
+
+        {/* Action bar */}
+
+        <div className="flex items-center justify-end p-3">
+          <Button
+            size="sm"
+            disabled={!text.trim()}
+            onClick={handleGenerate}
+            className="w-full lg:w-auto"
+          >
+            Generate Speech
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
