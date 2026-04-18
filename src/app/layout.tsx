@@ -15,8 +15,11 @@ const nunitoSansHeading = Nunito_Sans({
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Voice Mime",
-  description: "Clone your voice",
+  title: {
+    default: "Voice Mime",
+    template: "%s | Voice Mime",
+  },
+  description: "Clone your voice with AI",
 };
 
 export default function RootLayout({
