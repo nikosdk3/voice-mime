@@ -1,7 +1,6 @@
 import { AudioLines, BookOpen, Sparkles, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import Link from "next/link";
 
 export function VoicePreviewPlaceholder() {
@@ -17,7 +16,7 @@ export function VoicePreviewPlaceholder() {
             <Sparkles className="text-background size-5" />
           </div>
 
-          <div className="bg-muted absolute right-0 -rotate-30 rounded-full p-4">
+          <div className="bg-muted absolute right-0 rotate-30 rounded-full p-4">
             <AudioLines className="text-muted-foreground size-5" />
           </div>
         </div>
