@@ -8,7 +8,3 @@ export const chatterbox = createClient<paths>({
     "x-api-key": env.CHATTERBOX_API_KEY,
   },
 });
-
-chatterbox.POST("/generate", {
-  
-})
