@@ -48,7 +48,7 @@ export const generationsRouter = createTRPCRouter({
         temperature: z.number().min(0).max(2).default(0.8),
         topP: z.number().min(0).max(1).default(0.95),
         topK: z.number().min(1).max(10000).default(1000),
-        repetitionPenality: z.number().min(1).max(2).default(1.2),
+        repetitionPenalty: z.number().min(1).max(2).default(1.2),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -81,17 +81,18 @@ export const generationsRouter = createTRPCRouter({
       const { data, error } = await chatterbox.POST("/generate", {
         body: {
           prompt: input.text,
-          voice_key: voice.id,
+          voice_key: voice.r2ObjectKey,
           temperature: input.temperature,
           top_p: input.topP,
           top_k: input.topK,
-          repetition_penalty: input.repetitionPenality,
+          repetition_penalty: input.repetitionPenalty,
           norm_loudness: true,
         },
         parseAs: "arrayBuffer",
       });
 
       if (error) {
+        console.log(error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to generate audio",
@@ -112,7 +113,7 @@ export const generationsRouter = createTRPCRouter({
             temperature: input.temperature,
             topP: input.topP,
             topK: input.topK,
-            repetitionPenalty: input.repetitionPenality,
+            repetitionPenalty: input.repetitionPenalty,
           },
           select: { id: true },
         });

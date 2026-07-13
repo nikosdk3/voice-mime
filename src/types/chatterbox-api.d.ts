@@ -3,7 +3,7 @@
 * Do not edit manually. Run `npm run sync-api` to regenerate.
 *
 * Generated from: https://nikosdk3--chatterbox-tts-chatterbox-serve.modal.run/openapi.json
-* Generated at: 2026-07-05T06:21:25.297Z
+* Generated at: 2026-07-08T23:08:15.584Z
 */
 
 export interface paths {

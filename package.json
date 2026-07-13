@@ -8,6 +8,7 @@
     "start": "next start",
     "postinstall": "prisma generate",
     "lint": "eslint",
+    "seed-voices": "tsx scripts/seed-system-voices.ts",
     "sync-api": "tsx scripts/sync-api.ts"
   },
   "dependencies": {

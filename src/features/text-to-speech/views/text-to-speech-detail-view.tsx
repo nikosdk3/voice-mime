@@ -3,15 +3,16 @@
 import { useSuspenseQueries } from "@tanstack/react-query";
 
 import { useTRPC } from "@/trpc/client";
+
 import {
   TextToSpeechForm,
   type TTSFormValues,
-} from "@/features/text-to-speech/components/text-to-speech-form";
-import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
-import { TextInputPanel } from "@/features/text-to-speech/components/text-input-panel";
-import { VoicePreviewPlaceholder } from "@/features/text-to-speech/components/voice-preview-placeholder";
-
+} from "../components/text-to-speech-form";
 import { TTSVoicesProvider } from "../contexts/tts-voices-context";
+import { SettingsPanel } from "../components/settings-panel";
+import { TextInputPanel } from "../components/text-input-panel";
+import { VoicePreviewPanel } from "../components/voice-preview-panel";
+import { VoicePreviewMobile } from "../components/voice-preview-mobile";
 
 export function TextToSpeechDetailView({
   generationId,
@@ -61,7 +62,16 @@ export function TextToSpeechDetailView({
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <div className="flex min-h-0 flex-1 flex-col">
             <TextInputPanel />
-            <VoicePreviewPlaceholder />
+            <VoicePreviewMobile
+              audioUrl={data.audioUrl}
+              voice={generationVoice}
+              text={data.text}
+            />
+            <VoicePreviewPanel
+              audioUrl={data.audioUrl}
+              voice={generationVoice}
+              text={data.text}
+            />
           </div>
           <SettingsPanel />
         </div>
