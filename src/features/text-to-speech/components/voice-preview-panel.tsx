@@ -1,15 +1,25 @@
 "use client";
 
-import { Pause, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { Pause, Play, Undo, Redo, Download } from "lucide-react";
+import { format } from "date-fns";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
+import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
+
+import { useWaveSurfer } from "../hooks/use-wavesurfer";
 
 type VoicePreviewPanelVoice = {
   id?: string;
   name: string;
 };
+
+function formatTime(seconds: number): string {
+  return format(new Date(seconds * 1000), "mm:ss");
+}
 
 export function VoicePreviewPanel({
   audioUrl,
@@ -20,42 +30,37 @@ export function VoicePreviewPanel({
   voice: VoicePreviewPanelVoice | null;
   text: string;
 }) {
+  const [isDownloading, setIsDownloading] = useState(false);
   const selectedVoiceName = voice?.name ?? null;
   const selectedVoiceSeed = voice?.id ?? null;
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const {
+    containerRef,
+    isPlaying,
+    isReady,
+    currentTime,
+    duration,
+    togglePlayPause,
+    seekForward,
+    seekBackward,
+  } = useWaveSurfer({
+    url: audioUrl,
+    autoplay: true,
+  });
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const handleDownload = () => {
+    setIsDownloading(true);
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
+    const safeName = "speech";
 
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    audio.addEventListener("ended", handleEnded);
+    const link = document.createElement("a");
+    link.href = audioUrl;
+    link.download = `${safeName}.wav`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-    audio.play().catch(() => {});
-
-    return () => {
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, [audioUrl]);
-
-  const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
+    setTimeout(() => setIsDownloading(false), 1000);
   };
 
   return (
@@ -67,7 +72,33 @@ export function VoicePreviewPanel({
 
       {/* Content */}
       <div className="relative flex flex-1 items-center justify-center">
-        <audio ref={audioRef} src={audioUrl} />
+        {!isReady && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <Badge
+              variant="outline"
+              className="bg-background/90 text-muted-foreground gap-2 px-3 py-1.5 text-sm shadow-sm"
+            >
+              <Spinner className="size-4" />
+              <span>Loading audio...</span>
+            </Badge>
+          </div>
+        )}
+        <div
+          ref={containerRef}
+          className={cn(
+            "w-full cursor-pointer transition-opacity duration-200",
+            !isReady && "opacity-0",
+          )}
+        />
+      </div>
+      {/* Time Display */}
+      <div className="flex items-center justify-center">
+        <p className="text-foreground text-3xl font-semibold tracking-tight tabular-nums">
+          {formatTime(currentTime)}&nbsp;
+          <span className="text-muted-foreground">
+            /&nbsp;{formatTime(duration)}
+          </span>
+        </p>
       </div>
 
       {/* Footer */}
@@ -93,6 +124,16 @@ export function VoicePreviewPanel({
           {/* Player controls */}
           <div className="flex items-center justify-center gap-3">
             <Button
+              variant="ghost"
+              size="icon-lg"
+              className="flex-col"
+              onClick={() => seekBackward(10)}
+              disabled={!isReady}
+            >
+              <Undo className="-mb-1 size-4" />
+              <span className="text-[10px] font-medium">10</span>
+            </Button>
+            <Button
               variant="default"
               size="icon-lg"
               className="rounded-full"
@@ -104,10 +145,30 @@ export function VoicePreviewPanel({
                 <Play className="fill-background" />
               )}
             </Button>
+            <Button
+              variant="ghost"
+              size="icon-lg"
+              className="flex-col"
+              onClick={() => seekForward(10)}
+              disabled={!isReady}
+            >
+              <Redo className="-mb-1 size-4" />
+              <span className="text-[10px] font-medium">10</span>
+            </Button>
           </div>
 
-          {/* Spacer */}
-          <div />
+          {/* Download */}
+          <div className="flex justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownload}
+              disabled={isDownloading}
+            >
+              <Download className="size-4" />
+              Download
+            </Button>
+          </div>
         </div>
       </div>
     </div>
