@@ -1,0 +1,26 @@
+"use client";
+
+import { useTRPC } from "@/trpc/client";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+import { VoicesList } from "../components/voices-list";
+
+function VoicesContent() {
+  const trpc = useTRPC();
+  const { data } = useSuspenseQuery(trpc.voices.getAll.queryOptions());
+
+  return (
+    <>
+      <VoicesList title="My Voices" voices={data.custom} />
+      <VoicesList title="Built-In Voices" voices={data.system} />
+    </>
+  );
+}
+
+export function VoicesView() {
+  return (
+    <div className="flex-1 space-y-10 overflow-y-auto p-3 lg:p-6">
+      <VoicesContent />
+    </div>
+  );
+}
