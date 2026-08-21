@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Inter, Nunito_Sans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
@@ -41,7 +42,9 @@ export default function RootLayout({
           )}
         >
           <body className="flex min-h-full flex-col">
-            {children}
+            <NuqsAdapter>
+              {children}
+            </NuqsAdapter>
             <Toaster />
           </body>
         </html>

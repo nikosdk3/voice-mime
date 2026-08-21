@@ -13,6 +13,7 @@ import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { AppRouter } from "@/trpc/routers/_app";
 import { VOICE_CATEGORY_LABELS } from "../data/voice-categories";
+import { useAudioPlayback } from "@/hooks/use-audio-playback";
 
 export type VoiceItem =
   inferRouterOutputs<AppRouter>["voices"]["getAll"]["custom"][number];
@@ -37,12 +38,10 @@ function parseLanguage(locale: string) {
 }
 
 export function VoiceCard({ voice }: VoiceCardProps) {
-  const isLoading = false;
-  const isPlaying = false;
-
   const { flag, region } = parseLanguage(voice.language);
 
   const audioSrc = `/api/voices/${encodeURIComponent(voice.id)}`;
+  const { isPlaying, isLoading, togglePlay } = useAudioPlayback(audioSrc);
 
   return (
     <div className="flex items-center gap-1 overflow-hidden rounded-xl border pr-3 lg:pr-6">
@@ -66,7 +65,7 @@ export function VoiceCard({ voice }: VoiceCardProps) {
             {VOICE_CATEGORY_LABELS[voice.category]}
           </span>
         </div>
-        <p className="text-muted-foregroundGi line-clamp-1 text-xs">
+        <p className="text-muted-foreground line-clamp-1 text-xs">
           {voice.description}
         </p>
 
@@ -81,7 +80,7 @@ export function VoiceCard({ voice }: VoiceCardProps) {
           variant="outline"
           size="icon-sm"
           className="rounded-full"
-          onClick={() => {}} // Todo: Change to "togglePlay()"
+          onClick={togglePlay} // Todo: Change to "togglePlay()"
           disabled={isLoading}
         >
           {isLoading ? (
