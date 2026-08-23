@@ -35,16 +35,13 @@ export default function RootLayout({
         <html
           lang="en"
           className={cn(
-            "h-full",
-            "antialiased",
+            "h-full font-sans antialiased",
             inter.variable,
             nunitoSansHeading.variable,
           )}
         >
           <body className="flex min-h-full flex-col">
-            <NuqsAdapter>
-              {children}
-            </NuqsAdapter>
+            <NuqsAdapter>{children}</NuqsAdapter>
             <Toaster />
           </body>
         </html>

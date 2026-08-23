@@ -38,7 +38,7 @@ model Voice {
   orgId String?
 
   name        String
-  description String
+  description String?
   category    VoiceCategory @default(GENERAL)
   language    String        @default("en-US")
   variant     VoiceVariant
