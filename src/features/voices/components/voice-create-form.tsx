@@ -57,6 +57,7 @@ import {
   VOICE_CATEGORIES,
   VOICE_CATEGORY_LABELS,
 } from "../data/voice-categories";
+import { VoiceRecorder } from "./voice-recorder";
 
 const LANGUAGE_OPTIONS = locales.all
   .filter((l) => l.tag && l.tag.includes("-") && l.name)
@@ -358,14 +359,20 @@ export function VoiceCreateForm({
                       <Upload className="size-3.5" />
                       Upload
                     </TabsTrigger>
-                    <TabsTrigger value="record" disabled>
+                    <TabsTrigger value="record">
                       <Mic className="size-3.5" />
                       Record
                     </TabsTrigger>
                   </TabsList>
-
                   <TabsContent value="upload">
                     <FileDropzone
+                      file={field.state.value}
+                      onFileChange={field.handleChange}
+                      isInvalid={isInvalid}
+                    />
+                  </TabsContent>
+                  <TabsContent value="record">
+                    <VoiceRecorder
                       file={field.state.value}
                       onFileChange={field.handleChange}
                       isInvalid={isInvalid}
