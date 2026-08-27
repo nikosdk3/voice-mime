@@ -28,7 +28,7 @@ export const generationsRouter = createTRPCRouter({
         audioUrl: `/api/audio/${generation.id}`,
       };
     }),
-  getAll: orgProcedure.query(async ({ input, ctx }) => {
+  getAll: orgProcedure.query(async ({ ctx }) => {
     const generations = await prisma.generation.findMany({
       where: { orgId: ctx.orgId },
       orderBy: { createdAt: "desc" },
@@ -78,7 +78,7 @@ export const generationsRouter = createTRPCRouter({
           message: "Voice audio not available",
         });
       }
-      
+
       Sentry.logger.info("Generation started", {
         org: ctx.orgId,
         voiceId: input.voiceId,

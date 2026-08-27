@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Inter, Nunito_Sans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
@@ -34,14 +35,13 @@ export default function RootLayout({
         <html
           lang="en"
           className={cn(
-            "h-full",
-            "antialiased",
+            "h-full font-sans antialiased",
             inter.variable,
             nunitoSansHeading.variable,
           )}
         >
           <body className="flex min-h-full flex-col">
-            {children}
+            <NuqsAdapter>{children}</NuqsAdapter>
             <Toaster />
           </body>
         </html>

@@ -8,7 +8,7 @@ import { SettingsPanelSettings } from "@/features/text-to-speech/components/sett
 const tabTriggerClassName =
   "flex-1 h-full gap-2 rounded-none border-x-0 border-t-0 border-b-px border-b-transparent shadow-none data-[state=active]:!bg-background data-[state=active]:!border-b-foreground group-data-[variant=default]/tabs-list:data-[state=active]:!shadow-none";
 
-export function SettingsPanel({ generationId }: { generationId: string }) {
+export function SettingsPanel() {
   return (
     <div className="hidden min-h-0 w-105 flex-col border-l lg:flex">
       <Tabs
