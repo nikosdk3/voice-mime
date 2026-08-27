@@ -73,7 +73,7 @@ export function TextToSpeechDetailView({
               text={data.text}
             />
           </div>
-          <SettingsPanel generationId={generationId} />
+          <SettingsPanel />
         </div>
       </TextToSpeechForm>
     </TTSVoicesProvider>
