@@ -11,7 +11,6 @@ import {
   X,
 } from "lucide-react";
 import { cn, formatFileSize } from "@/lib/utils";
-import { useEffect } from "react";
 
 function formatTime(seconds: number) {
   const h = Math.floor(seconds / 3600);

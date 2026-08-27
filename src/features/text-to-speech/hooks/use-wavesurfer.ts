@@ -11,17 +11,6 @@ interface UseWaveSurferOptions {
   onError?: (error: Error) => void;
 }
 
-interface UseWaveSurferReturn {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  isPlaying: boolean;
-  isReady: boolean;
-  currentTime: number;
-  duration: number;
-  togglePlayPause: () => void;
-  seekForward: (seconds?: number) => void;
-  seekBackward: (seconds?: number) => void;
-};
-
 export function useWaveSurfer({
   url,
   autoplay,
@@ -125,4 +114,4 @@ export function useWaveSurfer({
     seekForward,
     seekBackward,
   };
-};
+}
