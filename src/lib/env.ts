@@ -1,6 +1,12 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  POLAR_ACCESS_TOKEN: z.string().min(1),
+  POLAR_SERVER: z.enum(["production", "sandbox"]).default("sandbox"),
+  POLAR_PRODUCT_ID: z.string().min(1),
+  POLAR_METER_TTS_GENERATION: z.string().min(1),
+  POLAR_METER_TTS_PROPERTY: z.string().min(1),
+  POLAR_METER_VOICE_CREATION: z.string().min(1),
   DATABASE_URL: z.url(),
   APP_URL: z.url(),
   R2_ACCOUNT_ID: z.string().min(1),
